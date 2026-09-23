@@ -462,7 +462,7 @@ const getAvailableDoctorByTodaysSchedule = async (query: IQuery) => {
   const startOfTomorrow = addDays(startOfToday, 1);
 
   // A doctor is "available today" if they have at least one published,
-  // not-yet-started schedule today with open slots left.
+  // not-yet-ended schedule today with open slots left.
 
   const andConditions: DoctorWhereInput[] = [
     { isDeleted: false },
@@ -476,8 +476,8 @@ const getAvailableDoctorByTodaysSchedule = async (query: IQuery) => {
           startDateTime: {
             gte: startOfToday,
             lt: startOfTomorrow,
-            gt: now,
           },
+          endDateTime: { gt: now },
         },
       },
     },
@@ -528,10 +528,10 @@ const getAvailableDoctorByTodaysSchedule = async (query: IQuery) => {
           startDateTime: {
             gte: startOfToday,
             lt: startOfTomorrow,
-            gt: now,
           },
+          endDateTime: { gt: now },
         },
-        orderBy: { [sortBy]: sortOrder },
+        orderBy: { startDateTime: "asc" },
         select: {
           id: true,
           startDateTime: true,
