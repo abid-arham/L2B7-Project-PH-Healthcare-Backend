@@ -49,7 +49,7 @@ export const seedTesterAdmin = async()=>{
     try {
         const isTesterAdminExist = await prisma.user.findFirst({
             where:{
-                role: Role.ADMIN
+                email: config.tester_admin_email
             }
         })
 
@@ -89,7 +89,7 @@ export const seedTesterDoctor = async()=>{
     try {
         const isTesterDoctorExist = await prisma.user.findFirst({
             where:{
-                role: Role.DOCTOR
+                email: config.tester_doctor_email
             }
         })
 
